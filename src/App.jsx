@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Locations from './features/location/location'
