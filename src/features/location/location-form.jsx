@@ -49,7 +49,7 @@ const LocationForm = (props) => {
     } else {
       dispatch(locationAdded(newLocation))
     }
-    window.location.replace('/locations')
+    window.location.replace('/#/locations')
     setNewLocation(initialState)
   }
 

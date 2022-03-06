@@ -16,7 +16,7 @@ const CategoryForm = (props) => {
 		} else {
 			dispatch(added({ name: categoryName.trim() }));
 		}
-		window.location.replace('/categories')
+		window.location.replace('/#/categories')
 	}
 
 	return (
