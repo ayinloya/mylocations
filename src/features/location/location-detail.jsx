@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 const LocationDetail = () => {
-	const selectedLocation = useSelector((state) => state.location.value.find((value) => value.id == location.pathname.split("/")[3]));
+	const selectedLocation = useSelector((state) => state.location.value.find((value) => value.id == location.hash.split("/")[3]));
 	const categories = useSelector((state) => state.category.value);
 
 	return (

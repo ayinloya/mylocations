@@ -7,7 +7,7 @@ import { locationAdded, locationUpdated } from "./location-slice";
 const LocationForm = (props) => {
   const dispatch = useDispatch();
   const initialState = { name: "", categoryId: "", address: "", coordinates: { latitude: 0, longitude: 0 } };
-  const selectedLocation = useSelector((state) => state.location.value.find((value) => value.id == location.pathname.split("/")[3]));
+  const selectedLocation = useSelector((state) => state.location.value.find((value) => value.id == location.hash.split("/")[3]));
   const [newLocation, setNewLocation] = useState(selectedLocation ?? initialState);
   const categories = useSelector((state) => state.category.value);
 
@@ -49,7 +49,7 @@ const LocationForm = (props) => {
     } else {
       dispatch(locationAdded(newLocation))
     }
-    window.location.replace('/locations')
+    window.location.replace('/#/locations')
     setNewLocation(initialState)
   }
 

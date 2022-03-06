@@ -2,7 +2,7 @@ import GoogleMapReact from 'google-map-react';
 import { useSelector } from "react-redux";
 
 const LocationMap = () => {
-	const selectedLocation = useSelector((state) => state.location.value.find((value) => value.id == location.pathname.split("/")[3]));
+	const selectedLocation = useSelector((state) => state.location.value.find((value) => value.id == location.hash.split("/")[3]));
 
 	const Marker = ({ text, onClick }) => (
 		<div onClick={onClick}>
