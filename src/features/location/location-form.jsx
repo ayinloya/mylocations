@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { locationAdded, locationUpdated } from "./location-slice";
 
 const LocationForm = (props) => {
@@ -73,13 +74,17 @@ const LocationForm = (props) => {
       <div className="mb-4">
         <label htmlFor="categoryId">
           Category
+          {!categories || categories.length == 0 && <Link to='/categories/new' className={` bg-violet-500 text-white
+      group flex rounded-md items-center w-24 px-2 py-2 text-sm`}>Create new</Link>}
         </label>
+
         <select className="input-form" value={newLocation.categoryId} name="categoryId" id="categoryId" onChange={e => handleChange(e)} required>
           <option value="">Select Category</option>
           {categories && categories.map((category) =>
             <option value={category.id} key={category.id}>
               {category.name}
             </option>)}
+
         </select>
       </div>
       <button type='submit' className="btn">Save</button>

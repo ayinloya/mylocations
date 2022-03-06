@@ -38,19 +38,13 @@ const Categories = () => {
 				<div className="px-1 py-1">
 					<Menu.Item>
 						{({ active }) => (
-							<Link to='/locations/new' className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
+							<Link to='/categories/new' className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
 								} group flex rounded-md items-center w-full px-2 py-2 text-sm`}>Add</Link>
 						)}
 					</Menu.Item>
 					{canEdit && <Menu.Item>
 						{({ active }) => (
-							<Link to={`/locations/details/${selectedCategory?.id}`} className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
-								} group flex rounded-md items-center w-full px-2 py-2 text-sm`}>View</Link>
-						)}
-					</Menu.Item>}
-					{canEdit && <Menu.Item>
-						{({ active }) => (
-							<Link to={`/locations/edit/${selectedCategory?.id}`} className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
+							<Link to={`/categories/edit/${selectedCategory?.id}`} className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
 								} group flex rounded-md items-center w-full px-2 py-2 text-sm`}>Edit</Link>
 						)}
 					</Menu.Item>}

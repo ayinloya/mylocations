@@ -19,7 +19,7 @@ const LocationMap = () => {
 	return (
 		<div className='w-screen h-screen'>
 			<GoogleMapReact
-				bootstrapURLKeys={{ key: "" }}
+				bootstrapURLKeys={{ key: import.meta.env.MAP_KEY }}
 				defaultCenter={[selectedLocation.coordinates.latitude, selectedLocation.coordinates.longitude]}
 				defaultZoom={10}
 				yesIWantToUseGoogleMapApiInternals

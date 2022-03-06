@@ -2,11 +2,11 @@ import { Link } from "react-router-dom"
 
 function Home() {
 	return (
-		<div>
-			<h1>Welcome to myLocations!</h1>
-			<p>View your categories</p>
+		<div className="flex items-center  justify-center  h-screen text-lg font-medium">
+			<div className="flex self-center flex-col text-center align-middle"><h1>Welcome to myLocations!</h1>
+			<p>Start by managing either your categories</p>
 			<p>or</p>
-			<p>Manage your locations</p>
+			<p>your locations</p></div>
 		</div>
 	)
 }
