@@ -17,14 +17,14 @@ function App() {
       <header className="App-header">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/categories/edit/:id" element={<EditCategory />} />
-          <Route path="/categories/new" element={<AddCategory />} />
-          <Route path="/locations" element={<Locations />} />
-          <Route path="/locations/new" element={<AddLocation />} />
-          <Route path="/locations/edit/:id" element={<EditLocation />} />
-          <Route path="/locations/detail/:id" element={<LocationDetail />} />
-          <Route path="/locations/map/:id" element={<LocationMap />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="categories/edit/:id" element={<EditCategory />} />
+          <Route path="categories/new" element={<AddCategory />} />
+          <Route path="locations" element={<Locations />} />
+          <Route path="locations/new" element={<AddLocation />} />
+          <Route path="locations/edit/:id" element={<EditLocation />} />
+          <Route path="locations/detail/:id" element={<LocationDetail />} />
+          <Route path="locations/map/:id" element={<LocationMap />} />
         </Routes>
       </header>
       <BottomNav />
