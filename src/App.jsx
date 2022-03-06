@@ -25,6 +25,7 @@ function App() {
           <Route path="locations/edit/:id" element={<EditLocation />} />
           <Route path="locations/detail/:id" element={<LocationDetail />} />
           <Route path="locations/map/:id" element={<LocationMap />} />
+          <Route path="*" />
         </Routes>
       </header>
       <BottomNav />
