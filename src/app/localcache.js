@@ -21,7 +21,7 @@ export const loadCategories = () => {
       const categories = localStorage.getItem('categories');
       return JSON.parse(categories) ?? {};
     } catch (err) {
-      return [];
+      return {};
     }
 };
 export const saveCategories = (categories) => {
