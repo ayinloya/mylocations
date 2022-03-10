@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import * as locationActions from './location-slice';
+import Tag from './tag/tag'
 
 const LocationItem = (props) => {
 
@@ -29,7 +30,11 @@ const LocationItem = (props) => {
 		</td>
 		<td className="">
 			<div className="flex items-center pl-5">
-				<p className="text-base font-medium leading-none text-gray-700 mr-2">{categories[location.categoryId].name}</p>
+				{location.categoryIds && location.categoryIds.map((category)=>
+				<Tag text={categories[category].name} key={category}/>
+				
+				)}
+				{/* <p className="text-base font-medium leading-none text-gray-700 mr-2"><Tag text={categories[location.categoryId].name} /><Tag text={categories[location.categoryId].name} /><Tag text={categories[location.categoryId].name} /><Tag text={categories[location.categoryId].name} /><Tag text={categories[location.categoryId].name} /></p> */}
 			</div>
 		</td>
 	</tr>)

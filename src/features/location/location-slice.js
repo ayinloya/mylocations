@@ -13,7 +13,12 @@ const checkAndGroupLocations = (state) => {
 	}
 
 	const grouped = state.value.reduce((cache, location) => {
-		(cache[location.categoryId] = cache[location.categoryId] || []).push(location);
+		for (const id of location.categoryIds) {
+			if (state.filter && state.filter !== id) {
+				continue;
+			}
+			(cache[id] = cache[id] || []).push(location);
+		}
 		return cache;
 	}, {});
 
@@ -38,7 +43,7 @@ const locationSlice = createSlice(
 		reducers: {
 			// view
 			locationsLoaded(state) {
-				console.log("state.value",state.value)
+				console.log("state.value", state.value)
 				state.value = sortLocations(state.value);
 			},
 			// add
@@ -56,11 +61,12 @@ const locationSlice = createSlice(
 			},
 			locationFilteredByCategory(state, action) {
 				state.selectedCount = 0
+				state.filter = action.payload;
 				if (!action.payload) {
 					state.value = loadLocations()
 					return state
 				}
-				const locations = loadLocations().filter((location) => location.categoryId == action.payload)
+				const locations = loadLocations().filter((location) => location.categoryIds.includes(action.payload))
 				state.value = locations;
 			},
 			toggleGroupByCategory(state) {
