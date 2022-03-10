@@ -14,7 +14,7 @@ import LocationMap from './features/location/location-map'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header w-full">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="categories" element={<Categories />} />

@@ -4,6 +4,7 @@ import { loadCategories, saveCategories } from '../../app/localcache';
 const initialState = {
 	value: loadCategories(),
 	selectedCount: 0,
+	selected: ""
 }
 
 const categorySlice = createSlice(
@@ -11,60 +12,46 @@ const categorySlice = createSlice(
 		name: 'category',
 		initialState,
 		reducers: {
-			// view
-			categoriesLoaded(state) {
-				state.value.sort(function (a, b) {
-					let x = a.name.toLowerCase();
-					let y = b.name.toLowerCase();
-					if (x < y) { return -1; }
-					if (x > y) { return 1; }
-					return 0;
-				});
-			},
 			// add
-			added(state, category) {
-				const payload = { ...category.payload, id: Date.now() };
-				state.value.push(payload)
+			added(state, action) {
+				state.value[Date.now()] = action.payload;
+				state.selectedCount = 0;
 				saveCategories(state.value)
 			},
 			// remove
 			removed(state) {
-				const categories = state.value.filter((category) => !category.checked)
-				state.value = categories;
+				Object.keys(state.value).map((category) => { if (!category.checked) delete state.value[category] })
 				state.selectedCount = 0;
 				saveCategories(state.value)
 			},
 			// update 
 			categoryUpdated(state, action) {
 				state.selectedCount = 0;
-				for (const category of state.value) {
-					if (action.payload.id === category.id) {
-						category.name = action.payload.name;
-						category.checked = false
-						break;
-					}
-				}
+				state.value[action.payload.id] = {name: action.payload.name}
 				saveCategories(state.value)
 			},
 			selected(state, action) {
-				if (!action.payload.checked) {
+				const category = state.value[action.payload];
+				category.checked = !category.checked;
+				if (category.checked) {
 					state.selectedCount++;
 				} else {
 					state.selectedCount = Math.max(state.selectedCount - 1, 0)
 				}
-				for (const category of state.value) {
-					if (action.payload.id === category.id) {
-						category.checked = !category.checked;
-						break;
+
+				let selectedId;
+				// Set id to the first checked item, this is to help when we start unchecking
+				for (const categoryId in state.value){
+					if (state.value[categoryId].checked) {
+						selectedId = categoryId
+						break
 					}
 				}
+
+				state.selected = selectedId
 			},
 			fetchCategory(state, action) {
-				for (const category of state.value) {
-					if (action.payload === category.id) {
-						return category;
-					}
-				}
+				return state.value[action.payload]
 			}
 			// edit
 		}

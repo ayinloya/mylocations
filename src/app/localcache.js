@@ -19,7 +19,7 @@ export const saveLocations = (locations) => {
 export const loadCategories = () => {
     try {
       const categories = localStorage.getItem('categories');
-      return JSON.parse(categories) ?? [];
+      return JSON.parse(categories) ?? {};
     } catch (err) {
       return [];
     }

@@ -3,7 +3,31 @@ import { loadLocations, saveLocations } from '../../app/localcache';
 
 const initialState = {
 	value: loadLocations(),
-	selectedCount: 0
+	selectedCount: 0,
+	isGrouped: false
+}
+
+const checkAndGroupLocations = (state) => {
+	if (!state.isGrouped || state.value.length == 0) {
+		return state.value;
+	}
+
+	const grouped = state.value.reduce((cache, location) => {
+		(cache[location.categoryId] = cache[location.categoryId] || []).push(location);
+		return cache;
+	}, {});
+
+	return grouped;
+}
+
+const sortLocations = locations => {
+	return locations.sort(function (a, b) {
+		let x = a.name.toLowerCase();
+		let y = b.name.toLowerCase();
+		if (x < y) { return -1; }
+		if (x > y) { return 1; }
+		return 0;
+	});
 }
 
 
@@ -14,17 +38,13 @@ const locationSlice = createSlice(
 		reducers: {
 			// view
 			locationsLoaded(state) {
-				state.value.sort(function (a, b) {
-					let x = a.name.toLowerCase();
-					let y = b.name.toLowerCase();
-					if (x < y) { return -1; }
-					if (x > y) { return 1; }
-					return 0;
-				});
+				console.log("state.value",state.value)
+				state.value = sortLocations(state.value);
 			},
 			// add
 			locationAdded(state, action) {
 				state.value.push({ ...action.payload, id: Date.now() })
+				state.value = sortLocations(state.value)
 				saveLocations(state.value)
 			},
 			// remove
@@ -35,18 +55,17 @@ const locationSlice = createSlice(
 				saveLocations(state.value)
 			},
 			locationFilteredByCategory(state, action) {
+				state.selectedCount = 0
 				if (!action.payload) {
 					state.value = loadLocations()
 					return state
 				}
 				const locations = loadLocations().filter((location) => location.categoryId == action.payload)
 				state.value = locations;
-				state.selectedCount = 0
 			},
-			groupedByCategory(state, action) {
-				const locations = state.value.filter((location) => location.categoryId == action.payload)
-				state.value = locations;
+			toggleGroupByCategory(state) {
 				state.selectedCount = 0
+				state.isGrouped = !state.isGrouped
 			},
 			// edit
 			locationUpdated(state, action) {
@@ -76,5 +95,6 @@ const locationSlice = createSlice(
 
 
 export const { locationAdded, locationUpdated, locationRemoved, locationSelected, locationsLoaded,
-	locationFilteredByCategory } = locationSlice.actions;
+	locationFilteredByCategory, toggleGroupByCategory } = locationSlice.actions;
+export { checkAndGroupLocations };
 export default locationSlice.reducer;

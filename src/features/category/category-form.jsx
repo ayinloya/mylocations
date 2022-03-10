@@ -1,22 +1,23 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { added, categoryUpdated } from "./category-slice";
 
 const CategoryForm = (props) => {
 	const dispatch = useDispatch()
-	const category = useSelector((state) => state.category.value.find((value) => !!value.checked && props.isEditing) ?? {});
-
+	const navigateTo = useNavigate();
+	const categoryId = location.hash.split("/")[3];
+	const category = useSelector((state) => state.category.value[categoryId] || {});
 	const [categoryName, setCategoryName] = useState(category.name ?? "")
 
 	const saveCategory = e => {
 		e.preventDefault();
 		if (props.isEditing) {
-			dispatch(categoryUpdated({ name: categoryName.trim(), id: category.id }));
+			dispatch(categoryUpdated({ name: categoryName.trim(), id: categoryId }));
 		} else {
 			dispatch(added({ name: categoryName.trim() }));
 		}
-		window.location.replace('/#/categories')
+		navigateTo('/categories')
 	}
 
 	return (

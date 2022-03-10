@@ -11,16 +11,13 @@ import { removed, selected, categoriesLoaded } from './category-slice';
 const Categories = () => {
 	const categories = useSelector((state) => state.category.value);
 	const selectedCount = useSelector((state) => state.category.selectedCount);
-	const selectedCategory = useSelector((state) => state.category.value.find((value) => !!value.checked));
+	const selectedCategory = useSelector((state) => state.category.selected);
 	const [isDialogOpen, setIsDialogOpen] = useState(false)
 	const dispatch = useDispatch()
 
 	const canEdit = selectedCount == 1;
 	const canDelete = selectedCount > 0;
 
-	useEffect(() => {
-		dispatch(categoriesLoaded())
-	}, [])
 
 
 	const checkHandler = (value) => {
@@ -31,20 +28,19 @@ const Categories = () => {
 		dispatch(removed());
 	}
 
-
 	return (
 		<div>
 			<TopNav title="Category">
 				<div className="px-1 py-1">
 					<Menu.Item>
 						{({ active }) => (
-							<Link to='/categories/new' className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
+							<Link to='/categories/new' className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
 								} group flex rounded-md items-center w-full px-2 py-2 text-sm`}>Add</Link>
 						)}
 					</Menu.Item>
 					{canEdit && <Menu.Item>
 						{({ active }) => (
-							<Link to={`/categories/edit/${selectedCategory?.id}`} className={`${active ? 'bg-violet-500 text-white' : 'text-gray-900'
+							<Link to={`/categories/edit/${selectedCategory}`} className={`${active ? 'bg-blue-500 text-white' : 'text-gray-900'
 								} group flex rounded-md items-center w-full px-2 py-2 text-sm`}>Edit</Link>
 						)}
 					</Menu.Item>}
@@ -59,22 +55,29 @@ const Categories = () => {
 						</Menu.Item>
 					</div>}
 			</TopNav>
-			<div className="sm:px-6 w-full">
-				<div className="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
+			<div className="sm:px-6 flex justify-center  mb-20">
+				<div className="bg-white py-4 md:py-7 px-4 md:px-8  w-full md:w-5/12">
 					<div className="mt-7 overflow-x-auto">
 						<table className="w-full whitespace-nowrap">
 							<tbody>
-								{categories && categories.map((category, index) =>
-									<tr tabIndex={index} key={category.id} className="focus:outline-none h-16 border border-gray-100 rounded">
+								{categories && Object.entries(categories).map(([id, category], index) =>
+									<tr tabIndex={index} key={id} className="focus:outline-none h-16 border border-gray-100 rounded">
 										<td>
 											<div className="ml-5">
 												<div className="bg-gray-200 rounded-sm w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-													<input placeholder="checkbox" type="checkbox" className="absolute cursor-pointer w-full h-full" name={category.id} id={category.id} checked={!!category.checked} onChange={(e) => checkHandler(category)} />
+													<input placeholder="checkbox" type="checkbox" className="absolute cursor-pointer w-full h-full" name={id} id={id} checked={!!category.checked} onChange={(e) => checkHandler(id)} />
+												</div>
+											</div>
+										</td>
+										<td>
+											<div className="">
+												<div className="rounded-sm ">
+													{index + 1}
 												</div>
 											</div>
 										</td>
 										<td className="">
-											<div className="flex items-center pl-5">
+											<div className="flex items-center">
 												<p className="text-base font-medium leading-none text-gray-700 mr-2">{category.name}</p>
 											</div>
 										</td>
