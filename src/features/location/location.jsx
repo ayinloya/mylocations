@@ -33,7 +33,6 @@ function Locations() {
   }
 
   const groupByCategory = (e) => {
-    console.log("e.target.value", !e.target.value)
     dispatch(locationActions.toggleGroupByCategory())
   }
 

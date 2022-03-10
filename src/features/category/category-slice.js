@@ -20,14 +20,18 @@ const categorySlice = createSlice(
 			},
 			// remove
 			removed(state) {
-				Object.keys(state.value).map((category) => { if (!category.checked) delete state.value[category] })
+				Object.keys(state.value).map((id) => {
+					if (state.value[id].checked) {
+						delete state.value[id]
+					}
+				})
 				state.selectedCount = 0;
 				saveCategories(state.value)
 			},
 			// update 
 			categoryUpdated(state, action) {
 				state.selectedCount = 0;
-				state.value[action.payload.id] = {name: action.payload.name}
+				state.value[action.payload.id] = { name: action.payload.name }
 				saveCategories(state.value)
 			},
 			selected(state, action) {
@@ -41,7 +45,7 @@ const categorySlice = createSlice(
 
 				let selectedId;
 				// Set id to the first checked item, this is to help when we start unchecking
-				for (const categoryId in state.value){
+				for (const categoryId in state.value) {
 					if (state.value[categoryId].checked) {
 						selectedId = categoryId
 						break

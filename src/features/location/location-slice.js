@@ -43,7 +43,6 @@ const locationSlice = createSlice(
 		reducers: {
 			// view
 			locationsLoaded(state) {
-				console.log("state.value", state.value)
 				state.value = sortLocations(state.value);
 			},
 			// add
@@ -95,12 +94,30 @@ const locationSlice = createSlice(
 					}
 				}
 			},
+			removeLocationWithCategory(state, action) {
+				const selectedCategories = [];
+				Object.keys(action.payload).map((category) => { if (action.payload[category].checked) selectedCategories.push(category) })
+				for (const location of state.value) {
+					for (const id of location.categoryIds) {
+						if (selectedCategories.includes(id)) {
+							location.checked = true
+							break
+						}
+					}
+				}
+			
+
+				const locations = state.value.filter((location) => !location.checked)
+				state.value = locations
+				state.selectedCount = 0
+				saveLocations(state.value)
+			},
 		}
 	}
 )
 
 
 export const { locationAdded, locationUpdated, locationRemoved, locationSelected, locationsLoaded,
-	locationFilteredByCategory, toggleGroupByCategory } = locationSlice.actions;
+	locationFilteredByCategory, toggleGroupByCategory, removeLocationWithCategory } = locationSlice.actions;
 export { checkAndGroupLocations };
 export default locationSlice.reducer;

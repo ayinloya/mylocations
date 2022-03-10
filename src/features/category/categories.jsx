@@ -5,8 +5,9 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import MyModal from '../confirm-modal';
+import { removeLocationWithCategory } from '../location/location-slice';
 import TopNav from '../top-nav/top-nav';
-import { removed, selected, categoriesLoaded } from './category-slice';
+import { removed, selected } from './category-slice';
 
 const Categories = () => {
 	const categories = useSelector((state) => state.category.value);
@@ -25,6 +26,7 @@ const Categories = () => {
 	}
 
 	const removeCategory = e => {
+		dispatch(removeLocationWithCategory(categories))
 		dispatch(removed());
 	}
 
@@ -88,7 +90,7 @@ const Categories = () => {
 				</div>
 			</div>
 
-			<MyModal isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} confirm={removeCategory} confirmText="Delete" message={`Delete ${selectedCount} ${selectedCount > 1 ? 'categories' : 'category'}? This action cannot be reversed`} />
+			<MyModal isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} confirm={removeCategory} confirmText="Delete" message={`Delete ${selectedCount} ${selectedCount > 1 ? 'categories' : 'category'}? Locations associated with the selected categories will be deleted. This action cannot be reversed`} />
 		</div>
 	)
 }
