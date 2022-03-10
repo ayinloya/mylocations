@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 function Home() {
-	if(localStorage.getItem("version")){
+	if(!localStorage.getItem("version")){
 		localStorage.setItem("version","v1")
 		localStorage.removeItem("categories")
 		localStorage.removeItem("locations")
